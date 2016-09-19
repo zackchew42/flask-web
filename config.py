@@ -78,13 +78,6 @@ class HerokuConfig(ProductionConfig):
         from werkzeug.contrib.fixers import ProxyFix
         app.wsgi_app = ProxyFix(app.wsgi_app)
 
-        # 写入日志
-        import logging
-        from logging import StreamHandler
-        file_handler = StreamHandler()
-        file_handler.setLevel(logging.WARNING)
-        app.logger.addHandler(file_handler)
-
         # 写入系统日志
         import logging
         from logging.handlers import SysLogHandler
