@@ -21,7 +21,7 @@ class RegistrationForm(Form):
                                           'Usernames must have only letters, '
                                           'numbers, dots or underscores')])
     password = PasswordField('Password', validators=[
-        Required(), EqualTo('password2', message='Password must match.')])
+        Required(), EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('Confirm Password', validators=[Required()])
     submit = SubmitField('Register')
 
@@ -37,7 +37,7 @@ class RegistrationForm(Form):
 class ChangePasswordForm(Form):
     old_password = PasswordField('Old password', validators=[Required()])
     password = PasswordField('New password', validators=[
-        Required(), EqualTo('password2', message='Password must be match')])
+        Required(), EqualTo('password2', message='Passwords must be match')])
     password2 = PasswordField('Confirm your password', validators=[Required()])
     submit = SubmitField('Update Password')
 
@@ -58,7 +58,7 @@ class PasswordResetForm(Form):
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first() is None:
-            raise ValidationError('Unknown mail address.')
+            raise ValidationError('Unknown email address.')
 
 
 class ChangeEmailForm(Form):

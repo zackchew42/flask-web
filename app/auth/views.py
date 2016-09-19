@@ -57,8 +57,8 @@ def register():
         db.session.commit()
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm Your Account',
-                   'auth/mail/confirm', user=user, token=token)
-        flash('A confirmation mail has been sent to you by mail.')
+                   'auth/email/confirm', user=user, token=token)
+        flash('A confirmation email has been sent to you by email.')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 
@@ -80,8 +80,8 @@ def confirm(token):
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
     send_email(current_user.email, 'Confirm Your Account',
-               'auth/mail/confirm', user=current_user, token=token)
-    flash('A new confirmation mail has been sent to you by mail.')
+               'auth/email/confirm', user=current_user, token=token)
+    flash('A new confirmation email has been sent to you by email.')
     return redirect(url_for('main.index'))
 
 
@@ -110,10 +110,10 @@ def password_reset_request():
         if user:
             token = user.generate_reset_token()
             send_email(user.email, 'Reset Your Password',
-                       'auth/mail/reset_password',
+                       'auth/email/reset_password',
                        user=user, token=token,
                        next=request.args.get('next'))
-        flash('An mail with instructions to reset your password has been '
+        flash('An email with instructions to reset your password has been '
               'sent to you.')
         return redirect(url_for('auth.login'))
     return render_template('auth/reset_password.html', form=form)
@@ -136,7 +136,7 @@ def password_reset(token):
     return render_template('auth/reset_password.html', form=form)
 
 
-@auth.route('/change-mail', methods=['GET', 'POST'])
+@auth.route('/change-email', methods=['GET', 'POST'])
 @login_required
 def change_email_request():
     form = ChangeEmailForm()
@@ -144,22 +144,22 @@ def change_email_request():
         if current_user.verify_password(form.password.data):
             new_email = form.email.data
             token = current_user.generate_email_change_token(new_email)
-            send_email(new_email, 'Confirm your mail address.',
-                       'auth/mail/change_email',
+            send_email(new_email, 'Confirm your email address.',
+                       'auth/email/change_email',
                        user=current_user, token=token)
-            flash('An mail with instructions to confirm your new mail '
+            flash('An email with instructions to confirm your new email '
                   'address has been sent to you.')
             return redirect(url_for('main.index'))
         else:
-            flash('Invalid mail or password.')
+            flash('Invalid email or password.')
         return render_template("auth/change_email.html", form=form)
 
 
-@auth.route('/change-mail/<token>')
+@auth.route('/change-email/<token>')
 @login_required
 def change_email(token):
     if current_user.change_email(token):
-        flash('Your mail address has been updated.')
+        flash('Your email address has been updated.')
     else:
         flash('Invalid request.')
     return redirect(url_for('main.index'))
