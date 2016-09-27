@@ -1,5 +1,4 @@
 alembic==0.8.8
-async-timeout==1.0.0
 bleach==1.4.3
 blinker==1.4
 chardet==2.3.0
