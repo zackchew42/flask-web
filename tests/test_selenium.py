@@ -89,5 +89,5 @@ class SeleniumTestCase(unittest.TestCase):
         self.assertTrue(re.search('Hello,\+john!', self.client.page_source))
 
         # navigate to the user's profile page
-        self.client.find_element_by_link_text('Profile').click()
+        self.client.find_element_by_link_text('Procfile').click()
         self.assertTrue('<h1>john</h1>' in self.client.page_source)
